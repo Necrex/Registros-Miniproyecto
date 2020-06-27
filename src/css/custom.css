@@ -4010,6 +4010,14 @@ ul.notifications {
 .Search-bar {
   width: 100%;}
 
+.Aggregate-btn{
+  left: 10%;}
 
-  .Aggregate-btn{
-    left: 10%;}
+.Table_cit{
+  background: #fff;
+  padding: 7px 10px;
+  height: 100%;}
+
+.Table_cont{
+  height: 100%;
+  overflow-y: scroll;}
