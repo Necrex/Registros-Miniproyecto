@@ -5,7 +5,7 @@ class UserMenuItem extends Component {
   render() {
     return (
       <Item {...this.props}>
-        <Item.Content className="user-profile">
+        {/* <Item.Content className="user-profile">
           <img src="images/img.jpg" alt=""/>John Doe
           <span className=" fa fa-angle-down"></span>
         </Item.Content>
@@ -19,7 +19,7 @@ class UserMenuItem extends Component {
           </li>
           <li><a href="#!">Help</a></li>
           <li><a href="login.html"><i className="fa fa-sign-out pull-right"></i> Log Out</a></li>
-        </Item.SubMenu>
+        </Item.SubMenu> */}
       </Item>
     )
   }

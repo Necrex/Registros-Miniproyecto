@@ -4,15 +4,18 @@ import childrenWithProps from '../childrenWithProps'
 
 class Item extends Component {
   render() {
-    const { shared, className, children } = this.props
-    const { opened } = shared.getState()
-    const open = opened === this.element
-    const toggleMenu = (e) => shared.toggle(this.element, e)
+    // const { shared, className, children } = this.props
+    // const { opened } = shared.getState()
+    // const open = opened === this.element
+    // const toggleMenu = (e) => shared.toggle(this.element, e)
 
-    return (
-      <li role="presentation" ref={ li => this.element = li } className={ cn(className, { open }) }>
-        { childrenWithProps(children, { opened, toggleMenu }) }
-      </li>
+    // return (
+    //   <li role="presentation" ref={ li => this.element = li } className={ cn(className, { open }) }>
+    //     { childrenWithProps(children, { opened, toggleMenu }) }
+    //   </li>
+    // )
+    return(
+      <a></a>
     )
   }
 }
