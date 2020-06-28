@@ -1,15 +1,14 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'react-bootstrap'
-import  TopSearch  from './Top-Search.js'
-import TableStates from './Table_states.js'
+import Town_form  from './Town_form.js'
+import TableCitizens from '../towns_main_page/Table_towns.js'
 
 class States extends Component {
   render () {
 
     return (
         <div class="Container">
-            <TopSearch />
-            <TableStates />
+            <Town_form />
+            <TableCitizens />
         </div>
     )
   }

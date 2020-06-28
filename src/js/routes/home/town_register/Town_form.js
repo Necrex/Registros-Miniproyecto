@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Clearfix } from 'react-bootstrap'
-import history from '../../../history.js'
 
 class TopSearch extends Component {
     render () {
@@ -8,11 +7,11 @@ class TopSearch extends Component {
             <div>
             <Row>
                 <Col md={3} sm={3} xs={3}>
-                    <label>Listado de municipios</label>
+                    <label>Registro de municipios</label>
                 </Col>
                 <Col md={9}>
-                <Button className="pull-right" onClick={() => { history.push('/home/town_register')}}>
-                    Agregar
+                    <Button className="pull-right" onClick={() => {alert('do stuff')}}>
+                        Guardar
                     </Button>
                 </Col>
             </Row>
@@ -31,7 +30,7 @@ class TopSearch extends Component {
             </Row>
             <Row>
                 <Col md={1}>
-                    <label>Municipio*</label>
+                    <label>Nombre*</label>
                 </Col>
                 <Col md={2}>
                 <input className="form-control"></input>

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
-import { Router } from 'react-router'
 import history from '../../../history.js'
-import State from '../states_main_page/States_main'
 
 class TopSearch extends Component {
     render () {
