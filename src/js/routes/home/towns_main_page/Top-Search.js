@@ -1,8 +1,32 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Clearfix } from 'react-bootstrap'
 import history from '../../../history.js'
+import axios from 'axios'
 
 class TopSearch extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            states:[]
+        }
+    }
+
+    componentDidMount() {
+        this.getStates();
+     }
+
+    async getStates(){
+        try {
+            const res = await axios.get('http://localhost/Registers_Api/GetStates.php')
+            this.setState({
+                states:res.data
+            })
+        } catch (error) {
+            console.error(console.error())
+        }
+    }
+
     render () {
         return(
             <div>
@@ -24,7 +48,11 @@ class TopSearch extends Component {
                 <Col md={2}>
                 <div class="input-group mb-3">
                 <select class="form-control" id="inputGroupSelect01">
-                    <Callstates />
+                {this.state.states.map(item=>{
+                return(
+                        <option value={item.id}>{item.nameState}</option>
+                    )
+                })}
                 </select>
                 </div>
                 </Col>
@@ -42,10 +70,6 @@ class TopSearch extends Component {
     }
 }
 
-function Callstates() {
-    return(
-        <option selected>Aguascalientes</option>
-    )
-}
+
 
 export default TopSearch
