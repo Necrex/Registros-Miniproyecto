@@ -4021,3 +4021,9 @@ ul.notifications {
 .Table_cont{
   height: 100%;
   overflow-y: scroll;}
+
+.FUpload{
+  position: absolute;
+  right: 12%;
+  top: 10%;
+  }
