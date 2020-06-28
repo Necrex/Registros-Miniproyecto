@@ -8,7 +8,7 @@ class TopSearch extends Component {
             <div>
             <Row>
                 <Col md={3} sm={3} xs={3}>
-                    <label>Listado de estados</label>
+                    <label>Listado de municipios</label>
                 </Col>
                 <Col md={9}>
                     <Button className="pull-right" onClick={() => {alert('do stuff')}}>

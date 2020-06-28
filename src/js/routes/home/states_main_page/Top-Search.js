@@ -7,7 +7,7 @@ class TopSearch extends Component {
 
                 <Row>
                     <Col md={3} sm={3} xs={3}>
-                        <label>Listado de ciudadanos</label>
+                        <label>Listado de estados</label>
                     </Col>
                     <Col md={5} sm={4} xs={4}>
                         <input placeholder="Buscar" type="text" class="form-control"/>

@@ -3,9 +3,9 @@ import { GroupMenuItem, MenuItem } from '../../components/SideBar'
 
 const Menu = (
   <GroupMenuItem title="Registros" icon="home" to="/home">
-    <MenuItem title="Ciudadanos" to="/home/citizen_registration" />
-    <MenuItem title="Estados" to="/home/states_registration" />
-    <MenuItem title="Municipios" to="/home/towns_registration" />
+    <MenuItem title="Ciudadanos" to="/home/citizen_main" />
+    <MenuItem title="Estados" to="/home/states_main" />
+    <MenuItem title="Municipios" to="/home/towns_main" />
   </GroupMenuItem>
 )
 

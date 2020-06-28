@@ -114,7 +114,7 @@ class Left extends Component {
           { /*/sidebar menu*/ }
 
           { /*/menu footer buttons*/ }
-          <div className="sidebar-footer hidden-small">
+          {/* <div className="sidebar-footer hidden-small">
             <a data-toggle="tooltip" data-placement="top" title="Settings">
               <span className="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </a>
@@ -127,7 +127,7 @@ class Left extends Component {
             <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
               <span className="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
-          </div>
+          </div> */}
           { /*/menu footer buttons*/ }
         </div>
       </div>
