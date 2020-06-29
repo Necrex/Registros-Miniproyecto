@@ -1,17 +1,20 @@
 import React, { Component } from 'react'
+import TableTown from './Table_towns.js'
 import { Row, Col, Button, Clearfix } from 'react-bootstrap'
 import history from '../../../history.js'
 import axios from 'axios'
 
 class TopSearch extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+
         this.state = {
-            states:[]
+            states:[],
+            id: 1
         }
     }
-
     componentDidMount() {
         this.getStates();
      }
@@ -25,6 +28,10 @@ class TopSearch extends Component {
         } catch (error) {
             console.error(console.error())
         }
+    }
+    handleChange(e){
+        this.setState({id : e.target.selectedIndex+1});
+        console.log(this.state.id)
     }
 
     render () {
@@ -47,10 +54,10 @@ class TopSearch extends Component {
                 </Col>
                 <Col md={2}>
                 <div class="input-group mb-3">
-                <select class="form-control" id="inputGroupSelect01">
+                <select class="form-control" onChange ={this.handleChange} >
                 {this.state.states.map(item=>{
                 return(
-                        <option value={item.id}>{item.nameState}</option>
+                        <option value={item.idState}>{item.nameState}</option>
                     )
                 })}
                 </select>
@@ -65,6 +72,10 @@ class TopSearch extends Component {
                 <input className="form-control"></input>
                 </Col>
             </Row>
+                <div key={this.state.id}>
+                <TableTown id = {this.state.id}/>
+                {console.log(this.state.id)}
+                </div>
             </div>
         )
     }

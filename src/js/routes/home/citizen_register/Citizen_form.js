@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Row, Col, Clearfix } from 'react-bootstrap'
+import { Row, Col, Clearfix, Button } from 'react-bootstrap'
 import FUpload from '../../../components/UploadFile/FUpload.js'
 import axios from 'axios'
 
@@ -8,11 +8,20 @@ class CitizenReg extends Component {
         super()
         this.changeState = this.changeState.bind(this)
         this.createCitizen = this.createCitizen.bind(this)
+        this.writeState = this.writeState.bind(this);
 
         this.state = {
             states:[],
             towns:[],
-            actualState: 0
+            actualState: 0,
+            clean:0,
+
+            name:"",
+            direction:"",
+            state:"",
+            town:"",
+            phone:"",
+            send:true
         }
     }
 
@@ -31,6 +40,14 @@ class CitizenReg extends Component {
 
             this.getTowns();
         }
+    }
+
+    writeState(e) {
+    const {name , value} = e.target;
+    this.setState({
+        [name]:value
+        });
+        console.log(name)
     }
 
     async getStates(){
@@ -56,8 +73,25 @@ class CitizenReg extends Component {
         }
     }
 
-    async createCitizen(){
-        
+    async createCitizen(e){
+        e.preventDefault();
+
+        try{
+            if(this.state.send){
+                const { name, direction, state, town, phone } = this.state;
+                const obj1 = { name:name, direction:direction, state:state, town:town, phone:phone };
+                await axios.post('http://localhost/Registers_Api/PostCitizen.php', obj1).then(() =>{
+                    window.alert("Ciudadano guardado correctamente")
+                }
+                )
+            }else{
+                const { name, direction, state, town, phone } = this.state;
+                const obj2 = { name:name, direction:direction, state:state, town:town, phone:phone };
+                await axios.post('http://localhost/Registers_Api/PostEditCitizen.php', obj2)
+            }
+        } catch(error) {
+            console.error(error);
+        }
     }
 
   render () {
@@ -70,13 +104,13 @@ class CitizenReg extends Component {
             </Row>
             <br></br>
             <Clearfix/>
-            <form onSubmit={this.createCitizen}>
+            <form onSubmit={this.createCitizen} key={this.state.limpiar}>
                 <Row>
                     <Col md={2}>
                     <label style={{fontSize:'13pt'}}>Nombre *</label>
                     </Col>
                     <Col md={5}>
-                    <input className="form-control" type="text" name="name"></input>
+                    <input className="form-control" type="text" name="name" onChange={this.writeState} ></input>
                     </Col>
                 </Row>
                 <br></br>
@@ -86,7 +120,7 @@ class CitizenReg extends Component {
                     <label style={{fontSize:'13pt'}}>Direccion *</label>
                     </Col>
                     <Col md={5}>
-                    <input className="form-control" type="text" name="direction"></input>
+                    <input className="form-control" type="text" name="direction" onChange={this.writeState}></input>
                     </Col>
                 </Row>
                 <br></br>
@@ -96,10 +130,10 @@ class CitizenReg extends Component {
                     </Col>
                     <Col md={5}>
                     <div class="input-group mb-3">
-                    <select class="form-control" onChange={this.changeState} name="state">
+                    <select className="form-control" name="state" onChange={this.writeState}>
                         {this.state.states.map(item => {
                             return(
-                                <option onClick={this.changeState} key={item.id}>{item.nameState}</option>
+                                <option onClick={this.changeState} value={item.idState} label={item.nameState}></option>
                             )
                         })}
                     </select>
@@ -109,27 +143,33 @@ class CitizenReg extends Component {
                 <br></br>
                 <Row>
                     <Col md={2}>
-                    <label style={{fontSize:'13pt'}}>Municipio *</label>
+                        <label style={{fontSize:'13pt'}}>Municipio *</label>
                     </Col>
                     <Col md={5}>
-                    <div class="input-group mb-3">
-                    <select class="form-control" onChange={this.changeState} name="town">
-                        {this.state.towns.map(item => {
-                            return(
-                                <option key={item.idTown}>{item.nameTown}</option>
-                            )
-                        })}
-                    </select>
-                    </div>
+                        <div class="input-group mb-3">
+                        <select className="form-control" onChange={this.writeState} name="town">
+                            {this.state.towns.map(item => {
+                                return(
+                                    <option value={item.idTown} label={item.nameTown}></option>
+                                )
+                            })}
+                        </select>
+                        </div>
                     </Col>
                 </Row>
                 <br></br>
                 <Row>
                     <Col md={2}>
-                    <label style={{fontSize:'13pt'}}>Telefono</label>
+                        <label style={{fontSize:'13pt'}}>Telefono</label>
                     </Col>
                     <Col md={3}>
-                    <input className="form-control" type="text" name="phone"></input>
+                        <input className="form-control" type="text" maxLength="10" name="phone" onChange={this.writeState}></input>
+                    </Col>
+                    <Col md={3} className="pull-right">
+                        <div>
+                            <Button type="submit" className="btn-success">Guardar</Button>
+                            <Button className="btn-danger" onClick={() =>{this.setState({actualState:0, name:"", direction:"", state:"", town:"", phone:"", limpiar:0})}}>Limpiar</Button>
+                        </div>
                     </Col>
                 </Row>
             </form>

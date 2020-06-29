@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import { Row, Col, Button } from 'react-bootstrap'
 import history from '../../../history.js'
+import TableStates from './Table_states.js'
+
 
 class TopSearch extends Component {
     render () {
         return(
-
+            <div>
                 <Row>
                     <Col md={3} sm={3} xs={3}>
                         <label>Listado de estados</label>
@@ -20,6 +22,8 @@ class TopSearch extends Component {
                     </Col>
                 </Row>
 
+                <TableStates />
+            </div>
         )
     }
 }

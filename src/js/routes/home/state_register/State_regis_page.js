@@ -8,7 +8,6 @@ class States extends Component {
     return (
         <div class="Container">
             <State_form />
-            <TableCitizens />
         </div>
     )
   }

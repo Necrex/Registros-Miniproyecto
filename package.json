@@ -7,6 +7,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.5",
     "firebase": "^7.15.5",
+    "material-table": "^1.63.1",
     "node-sass-chokidar": "^0.0.3",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
