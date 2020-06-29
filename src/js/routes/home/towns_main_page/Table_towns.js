@@ -36,20 +36,35 @@ const useStyles = makeStyles({
 });
 
 export default function TableStates(props) {
+  const buscar = props.buscar;
+  console.log(props.buscar, props.id)
   const deleted = 0;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  useEffect(() => {
-        const GetData = async () => {
-          const obj = {idState:props.id};
-          console.log(props.id)
-          const result = await axios.post('http://localhost/Registers_Api/GetTownsWhere.php', obj);
-          setData(result.data);
-        }
-        GetData();
+
+  if(props.buscar == "" || props.buscar == undefined){
+    useEffect(() => {
+      const GetData = async () => {
+        const obj1 = {idState:props.id};
+        console.log(props.id)
+        const result = await axios.post('http://localhost/Registers_Api/GetTownsWhere.php', obj1);
+        setData(result.data);
+      }
+      GetData();
 }, []);
+  }else{
+    useEffect(() => {
+      const GetData = async () => {
+        const obj2 = {idState:props.id, nameTown:buscar};
+        const result = await axios.post('http://localhost/Registers_Api/GetTownSearch.php', obj2);
+        setData(result.data);
+      }
+      GetData();
+  }, []);
+  }
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -82,8 +97,9 @@ export default function TableStates(props) {
            <TableRow >
                 <TableCell style={{fontSize: '1.2rem' }}>{row.nameTown}</TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right"><Button onClick={async () => {
-                  const obj = {idTown:row.idTown-1, active: deleted};
-                  const result = await axios.post('http://localhost/Registers_Api/DeleteTown.php', obj)}}>
+                  const obj = {idTown:row.idTown, active: deleted};
+                  if(window.confirm('Seguro que quieres eliminar este registro.')){
+                  const result = await axios.post('http://localhost/Registers_Api/DeleteTown.php', obj)}}}>
                   <i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
               </TableRow>

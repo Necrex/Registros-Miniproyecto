@@ -9,7 +9,7 @@ $id = $data['idState'];
 $modelo = new Conexion();
 $database = $modelo->getConnection();
 
- $sql = "SELECT idTown, nameTown FROM Towns WHERE idState='$id' and active = true";
+ $sql = "SELECT idTown, nameTown FROM Towns WHERE idState='$id' and active = true order by nameTown asc";
  $query = $database->prepare($sql);
  $query->execute();
    

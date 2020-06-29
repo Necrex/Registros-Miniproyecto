@@ -9,15 +9,26 @@ class TopSearch extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
+        this.writeState = this.writeState.bind(this)
+
 
         this.state = {
             states:[],
-            id: 1
+            id: 0,
+            buscar:null
         }
     }
     componentDidMount() {
         this.getStates();
      }
+
+     writeState(e) {
+        const {name , value} = e.target;
+        this.setState({
+            [name]:value
+        });
+        console.log(this.state.buscar)
+    }
 
     async getStates(){
         try {
@@ -30,7 +41,7 @@ class TopSearch extends Component {
         }
     }
     handleChange(e){
-        this.setState({id : e.target.selectedIndex+1});
+        this.setState({id : e.target.selectedIndex});
         console.log(this.state.id)
     }
 
@@ -54,12 +65,13 @@ class TopSearch extends Component {
                 </Col>
                 <Col md={2}>
                 <div class="input-group mb-3">
-                <select class="form-control" onChange ={this.handleChange} >
-                {this.state.states.map(item=>{
-                return(
-                        <option value={item.idState}>{item.nameState}</option>
-                    )
-                })}
+                <select class="form-control" onChange={this.handleChange} >
+                    <option selected value="0">Selecciona un estado</option>
+                    {this.state.states.map(item=>{
+                    return(
+                            <option value={item.idState}>{item.nameState}</option>
+                        )
+                    })}
                 </select>
                 </div>
                 </Col>
@@ -69,11 +81,13 @@ class TopSearch extends Component {
                     <label>Municipio*</label>
                 </Col>
                 <Col md={2}>
-                <input className="form-control"></input>
+                <input placeholder="Buscar" className="form-control" name="buscar" onChange={this.writeState}></input>
                 </Col>
             </Row>
-                <div key={this.state.id}>
-                <TableTown id = {this.state.id}/>
+                <div key={this.state.buscar}>
+                    <div key={this.state.id}>
+                    <TableTown id = {this.state.id} buscar ={this.state.buscar}/>
+                    </div>
                 {console.log(this.state.id)}
                 </div>
             </div>

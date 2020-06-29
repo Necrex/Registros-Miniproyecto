@@ -34,19 +34,33 @@ const useStyles = makeStyles({
   }, 
 });
 
-export default function TableStates() {
+export default function TableStates(props) {
+  const buscar =  {nameState: props.buscar};
+  const deleted = 0;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [data, setData] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-  useEffect(() => {
+
+  if(props.buscar == "" || props.buscar == 'undefined'){
+    useEffect(() => {
         const GetData = async () => {
           const result = await axios('http://localhost/Registers_Api/GetStates.php');
           setData(result.data);
         }
         GetData();
     }, []);
-  const handleChangePage = (event, newPage) => {
+  }else{
+    useEffect(() => {
+      const GetData = async () => {
+        const result = await axios.post('http://localhost/Registers_Api/GetStateSearch.php', buscar);
+        setData(result.data);
+      }
+      GetData();
+  }, []);
+  }
+  
+    const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
   const handleChangeRowsPerPage = event => {
@@ -76,7 +90,10 @@ export default function TableStates() {
               return (
            <TableRow value={row.idState}>
                 <TableCell style={{fontSize: '1.2rem' }}>{row.nameState}</TableCell>
-                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
+                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button onClick={async () => {
+                  const obj = {idState:row.idState, active: deleted};
+                  if(window.confirm('Seguro que quieres eliminar este registro.')){
+                  const result = await axios.post('http://localhost/Registers_Api/DeleteState.php', obj)}}}><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
               </TableRow>
               );  

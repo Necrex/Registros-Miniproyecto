@@ -14,7 +14,7 @@ class TownForm extends Component {
 
         this.state = {
             states:[],
-            idState: 1,
+            idState: 0,
             nameTown: "",
             send:true,
             change:100
@@ -35,7 +35,7 @@ class TownForm extends Component {
         }
     }
     handleChange(e){
-        this.setState({idState: e.target.selectedIndex+1,change:this.state.change+1});
+        this.setState({idState: e.target.value,change:this.state.change+1});
         console.log(this.state.idState)
     }
 
@@ -56,7 +56,7 @@ class TownForm extends Component {
                 await axios.post('http://localhost/Registers_Api/PostTown.php', obj1).then(() =>{
                     window.alert("Estado guardado correctamente")
                     this.setState({
-                        change:this.state.change+1
+                        change:this.state.change
                     })
                 })
             }else{
@@ -87,9 +87,10 @@ class TownForm extends Component {
                         <Col md={2}>
                         <div class="input-group mb-3">
                         <select class="form-control" name="idState" onChange={this.handleChange}>
+                            <option selected value="0">Selecciona un estado</option>
                             {this.state.states.map(item=>{
                             return(
-                                    <option value={item.idState}>{item.nameState}</option>
+                                    <option value={item.idState} >{item.nameState}</option>
                                 )
                             })}
                         </select>

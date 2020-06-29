@@ -5,6 +5,24 @@ import TableStates from './Table_states.js'
 
 
 class TopSearch extends Component {
+    constructor(){
+        super()
+        this.writeState = this.writeState.bind(this)
+
+        this.state = {
+            buscar:"undefined"
+        }
+    }
+
+    writeState(e) {
+        const {name , value} = e.target;
+        this.setState({
+            [name]:value
+        });
+        console.log(this.state.buscar)
+    }
+
+
     render () {
         return(
             <div>
@@ -13,7 +31,7 @@ class TopSearch extends Component {
                         <label>Listado de estados</label>
                     </Col>
                     <Col md={5} sm={4} xs={4}>
-                        <input placeholder="Buscar" type="text" class="form-control"/>
+                        <input placeholder="Buscar" name="buscar" type="text" class="form-control" onChange={this.writeState}/>
                     </Col>
                     <Col md={4}>
                         <Button className="pull-right" onClick={() => { history.push('/home/state_register')}}>
@@ -21,8 +39,9 @@ class TopSearch extends Component {
                         </Button>
                     </Col>
                 </Row>
-
-                <TableStates />
+                <div key={this.state.buscar}>
+                    <TableStates buscar={this.state.buscar}/>
+                </div>
             </div>
         )
     }

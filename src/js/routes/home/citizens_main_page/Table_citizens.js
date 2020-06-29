@@ -53,6 +53,7 @@ const useStyles = makeStyles({
 });
 
 export default function TableCitizens() {
+  const deleted = 0;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [data, setData] = useState([]);
@@ -99,7 +100,10 @@ export default function TableCitizens() {
                 <TableCell style={{fontSize: '1.2rem' }} align="right">{row.state}</TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right">{row.town}</TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right">{row.phone}</TableCell>
-                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
+                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button onClick={async () => {
+                  const obj = {id:row.id-1, active: deleted};
+                  if(window.confirm("¿Esta seguro que quiere eliminar este registro?")){
+                  const result = await axios.post('http://localhost/Registers_Api/DeleteCitizen.php', obj)}}}><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
               </TableRow>
               );  
