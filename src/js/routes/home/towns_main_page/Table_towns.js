@@ -10,7 +10,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination'; 
 import TableRow from '@material-ui/core/TableRow'; 
 import axios from 'axios';
-import { useState, useEffect } from 'react'  
+import { useState, useEffect } from 'react'
+
 
 const columns = [
     { id: 'name', label: 'Municipio', minWidth: 170 },
@@ -35,7 +36,7 @@ const useStyles = makeStyles({
 });
 
 export default function TableStates(props) {
-
+  const deleted = 0;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [data, setData] = useState([]);
@@ -80,7 +81,10 @@ export default function TableStates(props) {
               return (
            <TableRow >
                 <TableCell style={{fontSize: '1.2rem' }}>{row.nameTown}</TableCell>
-                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
+                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button onClick={async () => {
+                  const obj = {idTown:row.idTown-1, active: deleted};
+                  const result = await axios.post('http://localhost/Registers_Api/DeleteTown.php', obj)}}>
+                  <i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
                 <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
               </TableRow>
               );  

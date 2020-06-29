@@ -5,7 +5,7 @@ include('database.php');
 $array = array();
 $modelo = new Conexion();
 $database = $modelo->getConnection();
-$sql = 'SELECT S.idState, S.nameState, T.idTown, T.nameTown from Towns T
+$sql = 'SELECT S.idState, S.nameState, T.idTown, T.nameTown from Towns T where T.active = true
 inner join States S on T.idState = S.idState';
 $query = $database->prepare($sql);
 $query->execute();
