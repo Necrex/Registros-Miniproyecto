@@ -4,8 +4,8 @@ import FUpload from '../../../components/UploadFile/FUpload.js'
 import axios from 'axios'
 
 class CitizenReg extends Component {
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.changeState = this.changeState.bind(this)
         this.createCitizen = this.createCitizen.bind(this)
         this.writeState = this.writeState.bind(this);
@@ -16,6 +16,7 @@ class CitizenReg extends Component {
             actualState: 0,
             clean:0,
 
+            id:"",
             name:"",
             direction:"",
             state:"",
@@ -25,9 +26,72 @@ class CitizenReg extends Component {
         }
     }
 
+    // this.props.match.params.idEdit
+
     componentDidMount() {
         this.getStates();
         this.getTowns();
+        this.toDo();
+    }
+
+    toDo(){
+        const id = this.props.match.params.idEdit;
+        console.log(id)
+        if(id === ""){
+
+        }else{
+            this.edit(id)
+        }
+    }
+
+    writeState(e) {
+        const {name , value} = e.target;
+        this.setState({
+            [name]:value
+        });
+        console.log(name)
+    }
+
+    async createCitizen(e){
+        e.preventDefault();
+
+        try{
+            if(this.state.send){
+                const { name, direction, state, town, phone } = this.state;
+                const obj1 = { nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
+                await axios.post('http://localhost/Registers_Api/PostCitizen.php', obj1).then(() =>{
+                    window.alert("Ciudadano guardado correctamente")
+                })
+            }else{
+                const {id, name, direction, state, town, phone } = this.state;
+                const obj2 = {id:id, nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
+                await axios.post('http://localhost/Registers_Api/PostEditCitizen.php', obj2).then(() =>{
+                    window.alert("Ciudadano guardado correctamente")
+                })
+
+            }
+        } catch(error) {
+            console.error(error);
+        }
+    }
+
+    async edit(id){
+        const obj = {id:id};
+        console.log(obj);
+        try {
+        const res = await axios.post('http://localhost/Registers_Api/GetOneCitizen.php',obj);
+        this.setState({
+            id:res.data[0].id,
+            name: res.data[0].nameCitizen,
+            direction:res.data[0].direction,
+            state: res.data[0].state,
+            town:res.data[0].town,
+            phone: res.data[0].phone,
+            send:false
+          });
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     changeState(e) {
@@ -40,14 +104,6 @@ class CitizenReg extends Component {
 
             this.getTowns();
         }
-    }
-
-    writeState(e) {
-    const {name , value} = e.target;
-    this.setState({
-        [name]:value
-        });
-        console.log(name)
     }
 
     async getStates(){
@@ -73,27 +129,6 @@ class CitizenReg extends Component {
         }
     }
 
-    async createCitizen(e){
-        e.preventDefault();
-
-        try{
-            if(this.state.send){
-                const { name, direction, state, town, phone } = this.state;
-                const obj1 = { nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
-                await axios.post('http://localhost/Registers_Api/PostCitizen.php', obj1).then(() =>{
-                    window.alert("Ciudadano guardado correctamente")
-                }
-                )
-            }else{
-                const { name, direction, state, town, phone } = this.state;
-                const obj2 = { nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
-                await axios.post('http://localhost/Registers_Api/PostEditCitizen.php', obj2)
-            }
-        } catch(error) {
-            console.error(error);
-        }
-    }
-
   render () {
     return (
         <div>
@@ -110,7 +145,7 @@ class CitizenReg extends Component {
                     <label style={{fontSize:'13pt'}}>Nombre *</label>
                     </Col>
                     <Col md={5}>
-                    <input className="form-control" type="text" name="name" onChange={this.writeState} ></input>
+                    <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.writeState} ></input>
                     </Col>
                 </Row>
                 <br></br>
@@ -120,7 +155,7 @@ class CitizenReg extends Component {
                     <label style={{fontSize:'13pt'}}>Direccion *</label>
                     </Col>
                     <Col md={5}>
-                    <input className="form-control" type="text" name="direction" onChange={this.writeState}></input>
+                    <input className="form-control" type="text" name="direction" value={this.state.direction} onChange={this.writeState}></input>
                     </Col>
                 </Row>
                 <br></br>
@@ -130,7 +165,7 @@ class CitizenReg extends Component {
                     </Col>
                     <Col md={5}>
                     <div class="input-group mb-3">
-                    <select className="form-control" name="state" onChange={this.writeState}>
+                    <select className="form-control" name="state" value={this.state.state} onChange={this.writeState}>
                         {this.state.states.map(item => {
                             return(
                                 <option onClick={this.changeState} value={item.idState} label={item.nameState}></option>
@@ -147,7 +182,7 @@ class CitizenReg extends Component {
                     </Col>
                     <Col md={5}>
                         <div class="input-group mb-3">
-                        <select className="form-control" onChange={this.writeState} name="town">
+                        <select className="form-control" onChange={this.writeState} value={this.state.town} name="town">
                             {this.state.towns.map(item => {
                                 return(
                                     <option value={item.idTown} label={item.nameTown}></option>
@@ -163,7 +198,7 @@ class CitizenReg extends Component {
                         <label style={{fontSize:'13pt'}}>Telefono</label>
                     </Col>
                     <Col md={3}>
-                        <input className="form-control" type="text" maxLength="10" name="phone" onChange={this.writeState}></input>
+                        <input className="form-control" type="text" maxLength="10" name="phone" value={this.state.phone} onChange={this.writeState}></input>
                     </Col>
                     <Col md={3} className="pull-right">
                         <div>

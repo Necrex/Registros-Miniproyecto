@@ -15,6 +15,7 @@ $query->execute();
 
     while($fila = $query->fetch()){
         $array[] = array(
+            "id" => $fila['id'],
             "name" => $fila['nameCitizen'],
             "direction" => $fila['direction'],
             "state" => $fila['nameState'],

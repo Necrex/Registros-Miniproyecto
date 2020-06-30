@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import { Button  } from 'react-bootstrap'
 import { makeStyles } from '@material-ui/core/styles';  
 import Paper from '@material-ui/core/Paper'; 
@@ -104,7 +105,7 @@ export default function TableCitizens() {
                   const obj = {id:row.id-1, active: deleted};
                   if(window.confirm("¿Esta seguro que quiere eliminar este registro?")){
                   const result = await axios.post('http://localhost/Registers_Api/DeleteCitizen.php', obj)}}}><i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
-                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
+                <TableCell style={{fontSize: '1.2rem' }} align="right"><Link to={`/home/citizen_edit/${row.id}`}><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></Link></TableCell>
               </TableRow>
               );  
             })}  

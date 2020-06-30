@@ -14,7 +14,7 @@ class TopSearch extends Component {
                         <input placeholder="Buscar" type="text" class="form-control"/>
                     </Col>
                     <Col md={4}>
-                        <Button className="pull-right" onClick={() => { history.push('/home/citizen_register', this.props)}}>
+                        <Button className="pull-right" onClick={() => { history.push('/home/citizen_register')}}>
                         Agregar
                         </Button>
                     </Col>
