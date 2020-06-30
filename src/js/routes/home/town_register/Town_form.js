@@ -22,21 +22,17 @@ class TownForm extends Component {
     }
     componentDidMount() {
         this.getStates();
+        this.toDo();
     }
 
-    async getStates(){
-        try {
-            const res = await axios.get('http://localhost/Registers_Api/GetStates.php')
-            this.setState({
-                states:res.data
-            })
-        } catch (error) {
-            console.error(console.error())
+    toDo(){
+        const id = this.props.idTown;
+        console.log(id)
+        if(id === ""){
+
+        }else{
+            this.edit(id)
         }
-    }
-    handleChange(e){
-        this.setState({idState: e.target.value,change:this.state.change+1});
-        console.log(this.state.idState)
     }
 
     writeState(e) {
@@ -56,18 +52,56 @@ class TownForm extends Component {
                 await axios.post('http://localhost/Registers_Api/PostTown.php', obj1).then(() =>{
                     window.alert("Estado guardado correctamente")
                     this.setState({
-                        change:this.state.change
+                        change:this.state.change+1
                     })
                 })
             }else{
                 const { idState, nameTown } = this.state;
-                const obj2 = { idState:idState, nameTown:nameTown };
-                await axios.post('http://localhost/Registers_Api/PostEditTown.php', obj2)
+                const obj2 = { idState:idState, idTown:this.props.idTown , nameTown:nameTown };
+                await axios.post('http://localhost/Registers_Api/PostEditTown.php', obj2).then(() =>{
+                    window.alert("Estado guardado correctamente")
+                    this.setState({
+                        change:this.state.change+1
+                    })
+                })
             }
         } catch(error) {
             console.error(error);
         }
     }
+
+    async edit(id){
+        const obj = {idTown:id};
+        console.log(obj);
+        try {
+        const res = await axios.post('http://localhost/Registers_Api/GetOneTown.php',obj);
+        this.setState({
+            idTown:res.data[0].idTown,
+            nameTown: res.data[0].nameTown,
+            idState: res.data[0].idState,
+            send:false
+          });  
+            this.getStates();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async getStates(){
+        try {
+            const res = await axios.get('http://localhost/Registers_Api/GetStates.php')
+            this.setState({
+                states:res.data
+            })
+        } catch (error) {
+            console.error(console.error())
+        }
+    }
+    handleChange(e){
+        this.setState({idState: e.target.value,change:this.state.change+1});
+        console.log(this.state.idState)
+    }
+
 
 
     render () {
@@ -86,8 +120,8 @@ class TownForm extends Component {
                         </Col>
                         <Col md={2}>
                         <div class="input-group mb-3">
-                        <select class="form-control" name="idState" onChange={this.handleChange}>
-                            <option selected value="0">Selecciona un estado</option>
+                        <select class="form-control" name="idState" value={this.state.idState} onChange={this.handleChange}>
+                            <option value="0">Selecciona un estado</option>
                             {this.state.states.map(item=>{
                             return(
                                     <option value={item.idState} >{item.nameState}</option>
@@ -102,7 +136,7 @@ class TownForm extends Component {
                             <label>Nombre*</label>
                         </Col>
                         <Col md={2}>
-                        <input className="form-control" name="nameTown" onChange={this.writeState}></input>
+                        <input className="form-control" name="nameTown" value={this.state.nameTown} onChange={this.writeState}></input>
                         </Col>
                         <Col md={9}>
                             <Button className="pull-right" type="submit">

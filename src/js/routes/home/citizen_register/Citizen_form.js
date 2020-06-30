@@ -79,14 +79,14 @@ class CitizenReg extends Component {
         try{
             if(this.state.send){
                 const { name, direction, state, town, phone } = this.state;
-                const obj1 = { name:name, direction:direction, state:state, town:town, phone:phone };
+                const obj1 = { nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
                 await axios.post('http://localhost/Registers_Api/PostCitizen.php', obj1).then(() =>{
                     window.alert("Ciudadano guardado correctamente")
                 }
                 )
             }else{
                 const { name, direction, state, town, phone } = this.state;
-                const obj2 = { name:name, direction:direction, state:state, town:town, phone:phone };
+                const obj2 = { nameCitizen:name, direction:direction, state:state, town:town, phone:phone };
                 await axios.post('http://localhost/Registers_Api/PostEditCitizen.php', obj2)
             }
         } catch(error) {

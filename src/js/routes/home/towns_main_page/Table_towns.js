@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Row, Col, Button, Clearfix,  } from 'react-bootstrap'
+import React  from 'react'
+import { Button  } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles';  
 import Paper from '@material-ui/core/Paper'; 
 import Table from '@material-ui/core/Table';  
@@ -37,7 +38,6 @@ const useStyles = makeStyles({
 
 export default function TableStates(props) {
   const buscar = props.buscar;
-  console.log(props.buscar, props.id)
   const deleted = 0;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -101,7 +101,7 @@ export default function TableStates(props) {
                   if(window.confirm('Seguro que quieres eliminar este registro.')){
                   const result = await axios.post('http://localhost/Registers_Api/DeleteTown.php', obj)}}}>
                   <i class="fa fa-trash-o fa-4" aria-hidden="true"></i></Button></TableCell>
-                <TableCell style={{fontSize: '1.2rem' }} align="right"><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></TableCell>
+                <TableCell style={{fontSize: '1.2rem' }} align="right"><Link to={`/home/town_edit/${row.idTown}`}><Button><i class="fa fa-pencil-square-o fa-4" aria-hidden="true"></i></Button></Link></TableCell>
               </TableRow>
               );  
             })}  

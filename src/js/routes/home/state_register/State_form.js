@@ -10,11 +10,24 @@ class StateReg extends Component{
         this.createState = this.createState.bind(this)
         this.writeState = this.writeState.bind(this)
 
-
         this.state = {
+            idState:"",
             nameState:"",
             send:true,
-            change:0
+            change:0,
+        }
+    }
+
+    componentDidMount() {
+        this.toDo();
+    }
+
+    toDo(){
+        const id = this.props.idState;
+        if(id === ""){
+
+        }else{
+            this.edit(id)
         }
     }
 
@@ -23,12 +36,10 @@ class StateReg extends Component{
         this.setState({
             [name]:value
             });
-            console.log(this.state.nameState)
         }
 
     async createState(e){
         e.preventDefault();
-
         try{
             if(this.state.send){
                 const nameState = this.state.nameState;
@@ -41,14 +52,34 @@ class StateReg extends Component{
                 })
             }else{
                 const { nameState } = this.state;
-                const obj2 = { nameState:nameState };
-                await axios.post('http://localhost/Registers_Api/PostEditState.php', obj2)
+                const obj2 = { nameState:nameState, idState:this.props.idState };
+                await axios.post('http://localhost/Registers_Api/PostEditState.php', obj2).then(() =>{
+                    window.alert("Estado guardado correctamente")
+                    this.setState({
+                        change:this.state.change+1
+                    })
+                })
             }
         } catch(error) {
             console.error(error);
         }
     }
 
+    async edit(id){
+        const obj = {idState:id};
+        console.log(obj);
+        try {
+        const res = await axios.post('http://localhost/Registers_Api/GetOneState.php',obj);
+        this.setState({
+            idState:res.data[0].idState,
+            nameState: res.data[0].nameState,
+            send:false
+          });
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    
     render(){
         return(
             <div>
@@ -58,7 +89,7 @@ class StateReg extends Component{
                             <label>Registro de estados</label>
                         </Col>
                         <Col md={5} sm={4} xs={4}>
-                            <input placeholder="Estado" name="nameState" type="text" class="form-control" onChange={this.writeState}></input>
+                            <input placeholder="Estado" name="nameState" value={this.state.nameState} type="text" class="form-control" onChange={this.writeState}></input>
                         </Col>
                         <Col md={4}>
                             <Button className="pull-right" type="submit">
